@@ -1,0 +1,94 @@
+PUT okky-jobs-data-km
+{
+  "mappings": {
+    "properties": {
+      "city" : {
+          "type" : "keyword"
+        },
+        "company_name" : {
+          "type" : "keyword"
+        },
+        "date_created" : {
+          "type" : "date"
+        },
+        "description" : {
+          "type" : "text",
+          "analyzer" : "nori"
+        },
+        "district" : {
+          "type" : "keyword"
+        },
+        "id" : {
+          "type" : "long"
+        },
+        "job_type" : {
+          "type" : "keyword"
+        },
+        "last_updated" : {
+          "type" : "date"
+        },
+        "max_career" : {
+          "type" : "integer"
+        },
+        "max_pay" : {
+          "type" : "integer"
+        },
+        "min_career" : {
+          "type" : "integer"
+        },
+        "min_pay" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "keyword"
+        },
+        "start_date" : {
+          "type" : "date",
+          "format" : "[yyyy/MM]"
+        },
+        "tag_string" : {
+          "type" : "text",
+          "analyzer": "nori"
+        },
+        "text" : {
+          "type" : "text",
+          "analyzer" : "nori"
+        },
+        "title" : {
+          "type" : "text",
+          "analyzer" : "nori"
+        },
+        "view_count" : {
+          "type" : "integer"
+        },
+        "vote_count" : {
+          "type" : "integer"
+        },
+        "working_month" : {
+          "type" : "integer"
+        }
+    }
+  },
+  "settings" : {
+      "index" : {
+        "number_of_shards" : "1",
+        "analysis" : {
+          "analyzer" : {
+            "nori" : {
+              "char_filter" : [
+                "html_strip"
+              ],
+              "tokenizer" : "nori_tokenizer",
+              "filter": [ "lowercase" ]
+            }
+          },
+          "filter": {
+            "lowercase": {
+              "type": "lowercase"
+            }
+          }
+        },
+        "number_of_replicas" : "1"
+      }
+    }
+}
