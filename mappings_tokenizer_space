@@ -9,7 +9,6 @@ PUT okky_job_sample
             "char_filter" : ["html_strip"],
             "tokenizer": "pattern_tokenizer",
             "filter" : [
-                "korean_nori_part_of_speech",
                 "lowercase",
                 "stemmer_filter",
                 "josa_replace_filter",
