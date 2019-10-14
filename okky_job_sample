@@ -1,0 +1,144 @@
+PUT okky_job_sample
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "korean_nori_analyzer": {
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "korean_nori_tokenizer",
+            "filter" : [
+                "korean_nori_part_of_speech",
+                "lowercase",
+                "stemmer_filter",
+                "word_length_filter",
+                "puntucation_replace_filter"
+              ]
+          },
+        "pattern_analyzer" :{
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "pattern_tokenizer",
+            "filter" : [
+                "lowercase",
+                "stemmer_filter",
+                "josa_replace_filter",
+                "word_length_filter",
+                "puntucation_replace_filter"
+              ]        
+          }
+        },
+        "tokenizer": {
+          "pattern_tokenizer": {                    
+              "pattern": "[ ]",
+              "type": "pattern"
+                },          
+          "korean_nori_tokenizer": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          }
+        },
+        "filter":{
+           "korean_nori_part_of_speech": {
+              "type": "nori_part_of_speech",
+              "stoptags": [
+                            "E",
+                            "J",
+                            "MAG",
+                            "MAJ",
+                            "MM",
+                            "SP",
+                            "SSC",
+                            "SSO",
+                            "SC",
+                            "SE",
+                            "SF",
+                            "XSA",
+                            "XSN",
+                            "XSV",
+                            "UNA",
+                            "NA",
+                            "VSV",
+                            "VCP",
+                            "VCN"
+                         ]           
+           },                
+           "word_length_filter": {
+              "type": "length",
+              "min": 2
+                },
+           "stemmer_filter": {
+              "type": "stemmer",
+              "name": "porter2"
+          },
+          "josa_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[은는을를의에이가할된]",
+              "replacement": ""
+          },
+          "puntucation_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[\\.?!]{1,}$",
+              "replacement": ""
+          }
+          }
+        }
+      }
+    }
+  }
+
+GET okky_job_sample/_analyze
+{
+  "analyzer": "korean_nori_analyzer",
+  "text": "서울시 강남구"
+}
+
+{
+  "tokens" : [
+    {
+      "token" : "서울시",
+      "start_offset" : 0,
+      "end_offset" : 3,
+      "type" : "word",
+      "position" : 0,
+      "positionLength" : 2
+    },
+    {
+      "token" : "서울",
+      "start_offset" : 0,
+      "end_offset" : 2,
+      "type" : "word",
+      "position" : 0
+    },
+    {
+      "token" : "강남구",
+      "start_offset" : 4,
+      "end_offset" : 7,
+      "type" : "word",
+      "position" : 2,
+      "positionLength" : 2
+    },
+    {
+      "token" : "강남",
+      "start_offset" : 4,
+      "end_offset" : 6,
+      "type" : "word",
+      "position" : 2
+    }
+  ]
+}
+
+
+GET okky_job_sample/_analyze
+{
+  "analyzer": "pattern_analyzer",
+  "text": "c++"
+}
+
+
+GET okky_job_sample/_analyze
+{
+  "analyzer": "korean_nori_analyzer",
+  "text": "하늘을"
+}
