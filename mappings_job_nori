@@ -71,3 +71,17 @@ PUT okky_job_sample
       }
     }
   }
+
+
+GET okky_job_sample/_analyze
+{
+  "analyzer": "korean_nori_analyzer",
+  "text": "서울시 강남구"
+}
+
+
+GET okky_job_sample/_analyze
+{
+  "analyzer": "korean_nori_analyzer",
+  "text": "c++"
+}
