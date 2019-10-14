@@ -27,30 +27,6 @@ PUT okky_job_sample
           }
         },
         "filter":{
-           "korean_nori_part_of_speech": {
-              "type": "nori_part_of_speech",
-              "stoptags": [
-                            "E",
-                            "J",
-                            "MAG",
-                            "MAJ",
-                            "MM",
-                            "SP",
-                            "SSC",
-                            "SSO",
-                            "SC",
-                            "SE",
-                            "SF",
-                            "XSA",
-                            "XSN",
-                            "XSV",
-                            "UNA",
-                            "NA",
-                            "VSV",
-                            "VCP",
-                            "VCN"
-                         ]           
-           },
            "stemmer_filter": {
               "type": "stemmer",
               "name": "porter2"
