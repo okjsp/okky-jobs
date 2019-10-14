@@ -1,0 +1,73 @@
+PUT okky_job_sample
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "korean_nori_analyzer": {
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "korean_nori_tokenizer",
+            "filter" : [
+                "korean_nori_part_of_speech",
+                "lowercase",
+                "stemmer_filter",
+                "josa_replace_filter",
+                "puntucation_replace_filter"
+              ]
+          }
+        },
+        "tokenizer": {
+          "pattern_tokenizer": {                    
+              "pattern": "[ ]",
+              "type": "pattern"
+                },          
+          "korean_nori_tokenizer": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          }
+        },
+        "filter":{
+           "korean_nori_part_of_speech": {
+              "type": "nori_part_of_speech",
+              "stoptags": [
+                            "E",
+                            "J",
+                            "MAG",
+                            "MAJ",
+                            "MM",
+                            "SP",
+                            "SSC",
+                            "SSO",
+                            "SC",
+                            "SE",
+                            "SF",
+                            "XSA",
+                            "XSN",
+                            "XSV",
+                            "UNA",
+                            "NA",
+                            "VSV",
+                            "VCP",
+                            "VCN"
+                         ]           
+           },
+           "stemmer_filter": {
+              "type": "stemmer",
+              "name": "porter2"
+          },
+          "josa_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[은는을를의에이가할된]",
+              "replacement": ""
+          },
+          "puntucation_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[\\.?!]{1,}$",
+              "replacement": ""
+          }
+          }
+        }
+      }
+    }
+  }
