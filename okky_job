@@ -1,0 +1,184 @@
+PUT okky_job
+{
+  "settings": {
+    "index": {
+      "analysis": {
+        "analyzer": {
+          "korean_nori_analyzer": {
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "korean_nori_tokenizer",
+            "filter" : [
+                "korean_nori_part_of_speech",
+                "lowercase",
+                "stemmer_filter",
+                "word_length_filter",
+                "puntucation_replace_filter"
+              ]
+          },
+          "comma_analyzer": {
+              "type": "custom",
+              "tokenizer": "comma_tokenizer",
+              "filter": [
+                  "trim",
+                  "lowercase"
+                  ]
+          },          
+        "pattern_analyzer" :{
+            "type": "custom",
+            "char_filter" : ["html_strip"],
+            "tokenizer": "pattern_tokenizer",
+            "filter" : [
+                "lowercase",
+                "stemmer_filter",
+                "josa_replace_filter",
+                "word_length_filter",
+                "puntucation_replace_filter"
+              ]        
+          }
+        },
+        "tokenizer": {
+          "pattern_tokenizer": {                    
+              "pattern": "[ ]",
+              "type": "pattern"
+                },          
+          "korean_nori_tokenizer": {
+            "type": "nori_tokenizer",
+            "decompound_mode": "mixed"
+          },
+          "comma_tokenizer": {
+              "type": "pattern",
+              "pattern": "[,\\|\\s]"
+          }        
+        },
+        "filter":{
+           "korean_nori_part_of_speech": {
+              "type": "nori_part_of_speech",
+              "stoptags": [
+                            "E",
+                            "J",
+                            "MAG",
+                            "MAJ",
+                            "MM",
+                            "SP",
+                            "SSC",
+                            "SSO",
+                            "SC",
+                            "SE",
+                            "SF",
+                            "XSA",
+                            "XSN",
+                            "XSV",
+                            "UNA",
+                            "NA",
+                            "VSV",
+                            "VCP",
+                            "VCN"
+                         ]           
+           },
+           
+           "word_length_filter": {
+              "type": "length",
+              "min": 2
+                },
+           "stemmer_filter": {
+              "type": "stemmer",
+              "name": "porter2"
+          },
+          "josa_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[은는을를의에이가할된]",
+              "replacement": ""
+          },
+          "puntucation_replace_filter": {
+              "type": "pattern_replace",
+              "pattern": "[\\.?!]{1,}$",
+              "replacement": ""
+          }
+          }
+        }
+      }
+    },
+  "mappings": {
+    "properties": {
+      "@timestamp": {
+        "type": "date"
+      },
+      "@version": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "id": {
+        "type": "long"
+      },      
+      "article_title": {
+        "type": "text",
+        "analyzer": "korean_nori_analyzer"
+      },
+      "deep_title": {
+        "type": "text",
+        "analyzer": "comma_analyzer"
+      },      
+      "city": {
+        "type": "keyword"
+      },
+      "district": {
+        "type": "keyword"
+      },
+     "text": {
+        "type": "text",
+        "analyzer": "korean_nori_analyzer"
+      },
+      "name": {
+        "type": "text",
+        "analyzer": "korean_nori_analyzer"
+      },
+      "start_date": {
+        "type": "text"
+      },      
+      "end_date": {
+        "type": "text"
+      },
+      "working_month": {
+        "type": "long"
+      },
+      "job_type": {
+         "type": "text",
+        "analyzer": "korean_nori_analyzer"
+      },      
+      "tag_types": {
+         "type": "text",
+        "analyzer": "comma_analyzer"
+      },
+      "max_career": {
+        "type": "long"
+      },
+      "min_career": {
+        "type": "long"
+      },
+      "max_pay": {
+        "type": "long"
+      },
+      "min_pay": {
+        "type": "long"
+      },
+      "create_date": {
+        "type": "date"
+      },
+      "update_date": {
+        "type": "date"
+      },
+      "view_count": {
+        "type": "long"
+      },
+      "vote_count": {
+        "type": "long"
+      }
+    }
+  }
+  }
